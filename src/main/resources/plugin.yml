@@ -1,0 +1,77 @@
+name: WacoRP-Plugin
+version: '1.1'
+main: com.homanti.wacorp.Plugin
+api-version: '1.20'
+authors: [ Homanti ]
+
+commands:
+  telegram:
+    description: Отправляет сообщение игроку.
+    usage: /<command> <ник получателя> <сообщение>
+    aliases:
+      - tg
+      - тг
+
+  telegramanon:
+    description: Отправляет сообщение игроку анонимно.
+    usage: /<command> <ник получателя> <сообщение>
+    aliases:
+      - tganon
+      - тганон
+
+  cuff:
+    description: Надевает на игрока наручники.
+    usage: /<command> <ник>
+    permission: wacorp.cuff
+
+  uncuff:
+    description: Снимает на игрока наручники.
+    usage: /<command> <ник>
+    permission: wacorp.cuff
+
+  fbi:
+    description: Вызов полиции.
+    usage: /fbi <сообщение>
+    aliases:
+      - фбр
+
+  ambulance:
+    description: Вызов скорой помощи.
+    usage: /<command> <сообщение>
+    aliases:
+      - скорая
+
+  firefighters:
+    description: Вызов МЧС.
+    usage: /<command> <сообщение>
+    aliases:
+      - мчс
+
+  tell:
+    description: шепот.
+    usage: /<command> <ник> <сообщение>
+    aliases:
+      - шепот
+
+  jammer:
+    description: включение глушилки.
+    usage: /<command>
+    aliases:
+      - глушилка
+
+permissions:
+  wacorp.cuff:
+    description: Разрешает игроку надевать наручники
+    default: false
+
+  wacorp.fbi:
+    description: Разрешает игроку получать сообщение от игроков при вызове ФБР.
+    default: false
+
+  wacorp.ambulance:
+    description: Разрешает игроку получать сообщение от игроков при вызове скорой помощи.
+    default: false
+
+  wacorp.firefighters:
+    description: Разрешает игроку получать сообщение от игроков при вызове МЧС.
+    default: false
