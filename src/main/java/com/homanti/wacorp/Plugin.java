@@ -37,27 +37,51 @@ public final class Plugin extends JavaPlugin {
         this.getCommand("firefighters").setExecutor(new firefightersCMD());
         this.getServer().getPluginManager().registerEvents(new ItemRenameListener(), this);
 
+        if (!getDataFolder().exists()) {
+            getDataFolder().mkdirs();
+        }
+
         File secretsFile = new File(getDataFolder(), "secrets.yml");
 
         if (!secretsFile.exists()) {
-            saveResource("secrets.yml", false);
-            getLogger().warning("secrets.yml created! Please configure it and restart.");
-            return;
+            try {
+                secretsFile.createNewFile();
+                FileWriter writer = new FileWriter(secretsFile);
+                writer.write("# ВАЖНО: Заполните реальные значения!\n");
+                writer.write("discord:\n");
+                writer.write("  token: \"CHANGE_ME\"\n");
+                writer.close();
+
+                getLogger().severe("secrets.yml created! Please configure it and restart server.");
+                getServer().getPluginManager().disablePlugin(this);
+                return;
+            } catch (IOException e) {
+                getLogger().severe("Failed to create secrets.yml: " + e.getMessage());
+                getServer().getPluginManager().disablePlugin(this);
+                return;
+            }
         }
 
         FileConfiguration secrets = YamlConfiguration.loadConfiguration(secretsFile);
         String discordToken = secrets.getString("discord.token");
 
-        if (discordToken != null) {
-            try {
-                DiscordBot.initialize(discordToken);
-            } catch (LoginException var2) {
-                System.err.println("Не удалось авторизовать бота. Проверьте токен.");
-            } catch (InterruptedException var3) {
-                System.err.println("Инициализация была прервана.");
-            }
-        } else {
+        if (discordToken == null || discordToken.isEmpty() || discordToken.equals("CHANGE_ME")) {
             getLogger().severe("Discord token is not configured in secrets.yml!");
+            getLogger().severe("Please edit plugins/WacoRP-Plugin/secrets.yml and restart.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        try {
+            DiscordBot.initialize(discordToken);
+            getLogger().info("Discord bot successfully initialized!");
+        } catch (LoginException e) {
+            getLogger().severe("Failed to authorize Discord bot: " + e.getMessage());
+            getServer().getPluginManager().disablePlugin(this);
+        } catch (InterruptedException e) {
+            getLogger().severe("Discord bot initialization interrupted: " + e.getMessage());
+            getServer().getPluginManager().disablePlugin(this);
+            Thread.currentThread().interrupt();
         }
     }
 
