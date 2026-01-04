@@ -19,7 +19,7 @@ public class tellCMD implements CommandExecutor {
             return false;
 
         } else {
-            Player target = Bukkit.getServer().getPlayer(args[1]);
+            Player target = Bukkit.getServer().getPlayer(args[0]);
 
             if (target == null) {
                 sender.sendMessage("Игрок не найден!");

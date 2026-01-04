@@ -53,12 +53,6 @@ commands:
     aliases:
       - шепот
 
-  jammer:
-    description: включение глушилки.
-    usage: /<command>
-    aliases:
-      - глушилка
-
 permissions:
   wacorp.cuff:
     description: Разрешает игроку надевать наручники
