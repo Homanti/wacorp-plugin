@@ -27,10 +27,12 @@ public class ItemRenameListener implements Listener {
                     
                     if (original != null && original.hasItemMeta() && original.getItemMeta().hasDisplayName()) {
                         player = event.getWhoClicked().getName();
-                        DiscordBot.sendMessage("1230912142442631168", player + " переименовал " + result.getType() + '"' + original.getItemMeta().getDisplayName() + '"' + " в " + '"' + newName + '"');
+                        DiscordBot.sendMessage("1230912142442631168",
+                                String.format("%s переименовал %s \"%s\" в \"%s\"", player, result.getType(), original.getItemMeta().getDisplayName(), newName));
                     } else {
                         player = event.getWhoClicked().getName();
-                        DiscordBot.sendMessage("1230912142442631168", player + " переименовал " + result.getType() + " в " + newName);
+                        DiscordBot.sendMessage("1230912142442631168",
+                                String.format("%s переименовал %s в %s", player, result.getType(), newName));
                     }
                 }
             }
